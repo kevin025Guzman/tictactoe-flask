@@ -190,6 +190,8 @@ def disconnect():
             emit('disconnect-status', {'clientsNbs': onlineClients, 'clientId': request.sid}, to=session['room'])
 
 
-
+#main 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
+
+
