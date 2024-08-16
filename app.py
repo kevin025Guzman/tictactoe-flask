@@ -7,8 +7,8 @@ from flask_socketio import SocketIO, emit, join_room, disconnect, leave_room
 from random import randint
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'top-secret!'
-app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SESSION_TYPE'] = os.environ.get("SESSION_TYPE")
 
 socketio = SocketIO(app)
 
