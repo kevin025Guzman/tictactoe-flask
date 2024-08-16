@@ -24,8 +24,7 @@ var activeId = '';
 var player1 = "";
 var player2 = "";
 
-// ! SERVER-CLIENT COMMUNICATION
-// SOCKET.IO
+
 var socket = null
 
 joinButton.addEventListener('click', async function(event) {
@@ -83,26 +82,22 @@ function roomAvalability() {
 };
 
 
-// ! user pushed the StartGame button
-// todo: handler for .close 
-// document.querySelector('.close').addEventListener('click', function() {
-//   document.getElementById('greetingsBackground').classList.remove('show')
-// })
 
-// emit(1): Event handler for new connections is established.
+
+
 function userConnectedHandlers() {
 
   
-// socket.on('user-connected', function() {
+
   console.log('Connection established!');
 
-  // hadler (1.2): Event handler for server sent data // get client id
+ 
   socket.on('clientId', setClientId)
   
-  // hadler (1.2'): Event handler for server sent data // get connected-Players
+  
   socket.on('connected-Players', getConnectedPlayers);
 
-  // hadler (1.3): Event handler for server sent data
+
   socket.on('status', function(msg) {
     console.log(msg + " functon msg")
     console.log (`Last joined: ${msg['clientId']} || Clients Nbr.:${msg['clientsNbs']}`);
@@ -112,7 +107,7 @@ function userConnectedHandlers() {
 
   });
 
-    // hadler (1.3): Event handler for server sent data
+
   socket.on('disconnect-status', function(msg) {
 
     console.log (`Player: ${msg['clientId']} left the room. || Clients Nbr.:${msg['clientsNbs']}`);
@@ -121,29 +116,28 @@ function userConnectedHandlers() {
     addMsg(servermsg, 'msg-container center', 'msg-content refer');
   });
 
-  // handler(1c): Event handler for server sent data <player message>
+  
   socket.on('player message', updateChatView);
 
-  // event(2.1): get the active player id and set up html for game
+ 
   socket.on('start', (data) => {
     activeId = data['activePlayer'];
     let readyToStart = data['started'];
       console.log('Active user: ', activeId );
-      // alert("Game Started");
+     
     let txtmsg = (clientId == activeId) ? `Usuario activo: ${activeId} (tu turno)`: `Usuario activo: ${activeId} (turno del oponente)` ;
     addMsg(txtmsg, 'msg-container center', 'msg-content refer');
     startGame();
   });
 
-  // event(2.2): Server Event: waiting for second player start
+ 
   socket.on('waiting second player start', (data) => {
     let txtmsg = `Esperando el inicio del segundo jugador ...`;
     addMsg(txtmsg, 'msg-container center', 'msg-content refer');
   });
 
 
-  // handler(3) & event(3): update field with turn information received from server
-  // emited events (if Win OR Draw): game_status(msg)
+ 
   socket.on('turn', (turn) => {
     // let {recentPlayer, position, next} = turn;
     let currentMark = (turn['recentPlayer'] == 0) ? CIRCLE_CLASS : X_CLASS;
@@ -169,9 +163,7 @@ function userConnectedHandlers() {
 
 }; // END of function userConnected
 
-// ! CHAT BETWEEN PLAYERS
-// event(1c): emited events: my_broadcast_event(msg)
-// when at input #message and #send: send data to server  
+
 sendButton.addEventListener('click', sendUserMsg);
 
 // event(2): user pushed the StartGame button 
